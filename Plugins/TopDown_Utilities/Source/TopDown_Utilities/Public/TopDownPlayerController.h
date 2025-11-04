@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-
+#include "CLMBasePawn.h"
 #include <TopDownHUD.h>
 #include "TopDownPlayerController.generated.h"
 
@@ -17,6 +17,9 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 class ACLMBasePawn;
+
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActorsSelectedDelegate, const TArray<AActor*>&, SelectedActors);
 
 UCLASS()
 class TOPDOWN_UTILITIES_API ATopDownPlayerController : public APlayerController
@@ -43,6 +46,36 @@ private:
 	TObjectPtr<ATopDownHUD> TopDownHUD;
 
 
+	UPROPERTY(BlueprintAssignable, Category = "Delegates")
+	FOnActorsSelectedDelegate OnActorsSelected;
+
+
+
+	static void GetRoleAttributes(EUnitRole Role, int32& OutUnitsPerRow, float& OutSpacing)
+	{
+		switch (Role)
+		{
+		case EUnitRole::Melee:
+			OutUnitsPerRow = 4;
+			OutSpacing = 150.f;
+			break;
+		case EUnitRole::Ranged:
+			OutUnitsPerRow = 5;
+			OutSpacing = 150.f;
+			break;
+		case EUnitRole::Support:
+			OutUnitsPerRow = 3;
+			OutSpacing = 200.f;
+			break;
+		default:
+			OutUnitsPerRow = 5;
+			OutSpacing = 100.f;
+			break;
+		}
+	}
+
+
+
 
 
 	UPROPERTY()
@@ -65,4 +98,5 @@ protected:
 
 	void SelectMultiple();
 	void CommandActors(const FInputActionValue& Value);
+	void ArrangeUnits(TArray<ACLMBasePawn*> units, EUnitRole Type, FVector startPos, FVector& EndPos);
 };

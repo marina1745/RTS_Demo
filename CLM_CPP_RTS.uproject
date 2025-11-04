@@ -24,6 +24,23 @@
 		{
 			"Name": "Water",
 			"Enabled": true
+		},
+		{
+			"Name": "GameplayAbilities",
+			"Enabled": true
+		},
+		{
+			"Name": "GameplayInteractions",
+			"Enabled": true
+		},
+		{
+			"Name": "AbilitySystemGameFeatureActions",
+			"Enabled": true
+		},
+
+		{
+			"Name": "TopDown_Utilities",
+			"Enabled": true
 		}
 	]
 }

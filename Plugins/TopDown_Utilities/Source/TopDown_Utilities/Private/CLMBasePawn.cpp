@@ -67,6 +67,7 @@ void ACLMBasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 }
 
+
 void ACLMBasePawn::SelectActorLocal(const bool Select)
 {
 	SelectedIndicator->SetHiddenInGame(!Select);
@@ -83,8 +84,14 @@ void ACLMBasePawn::CommandActor_Implementation(const FVector Target)
 	TargetLocation = Target;
 	UE_LOG(LogTemp, Display, TEXT("commanded pawn to move to "));
 	AAIController* ai_controller = Cast<AAIController>(GetController());
+	ai_controller->SetMoveBlockDetection(true);
+	//ai_controller->SetPathFollowingComponent(UCrowdFollowingComponent::StaticClass());
 	ai_controller->MoveToLocation(TargetLocation,AcceptanceDistance);
 
+}
+EUnitRole ACLMBasePawn::GetActorType_Implementation()
+{
+	return UnitRole;
 }
 void ACLMBasePawn::Move()
 {
